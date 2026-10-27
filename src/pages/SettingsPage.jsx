@@ -30,7 +30,7 @@ import { usePageDirection } from '../lib/usePageDirection.js'
 import { formatDateTime, makeId } from '../lib/format.js'
 import { formatMoney } from '../lib/formatMoney.js'
 import { paginate } from '../lib/pagination.js'
-import { clearAdminStorage, usePersistentState } from '../lib/usePersistentState.js'
+import { usePersistentState } from '../lib/usePersistentState.js'
 
 const AUDIT_PAGE_SIZE = 10
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -350,32 +350,6 @@ export default function SettingsPage() {
                   }}
                   onSave={savePlatform}
                 />
-                <div className="panel-card settings-danger-zone">
-                  <div className="min-w-0 flex-1">
-                    <h3 className="panel-title text-danger">Reset demo data</h3>
-                    <p className="text-muted text-sm font-medium">
-                      Clears every saved change (restaurants, partners, offers, settings, audit log) and restores the seed data.
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    className="action-btn action-btn--danger"
-                    onClick={() =>
-                      setConfirm({
-                        title: 'Reset all demo data?',
-                        message: 'Every change saved in this browser will be wiped and the page will reload with the original data.',
-                        confirmLabel: 'Reset everything',
-                        tone: 'danger',
-                        onConfirm: () => {
-                          clearAdminStorage()
-                          window.location.reload()
-                        },
-                      })
-                    }
-                  >
-                    Reset data
-                  </button>
-                </div>
               </>
             ) : null}
 

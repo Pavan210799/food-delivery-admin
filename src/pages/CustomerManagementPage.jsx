@@ -16,7 +16,6 @@ import {
 } from '../components/ui/DetailModalParts.jsx'
 import FilterChip from '../components/ui/FilterChip.jsx'
 import GradientHero from '../components/ui/GradientHero.jsx'
-import ModuleHeader from '../components/ui/ModuleHeader.jsx'
 import Pagination from '../components/ui/Pagination.jsx'
 import StatusBadge from '../components/ui/StatusBadge.jsx'
 import TabBar from '../components/ui/TabBar.jsx'
@@ -218,7 +217,6 @@ export default function CustomerManagementPage() {
   const [resolvedComplaints, setResolvedComplaints] = usePersistentState('customers-resolved-complaints', [])
 
   const [bucket, setBucket] = useState('all')
-  const [query, setQuery] = useState('')
   const [page, setPage] = useState(1)
   const [selectedId, setSelectedId] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
@@ -262,12 +260,10 @@ export default function CustomerManagementPage() {
     ]
   }, [customers, filterCounts])
 
-  const visible = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    return customers.filter(
-      (c) => customerMatches(c, bucket) && (!q || c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q)),
-    )
-  }, [customers, bucket, query])
+  const visible = useMemo(
+    () => customers.filter((c) => customerMatches(c, bucket)),
+    [customers, bucket],
+  )
 
   const paged = useMemo(() => paginate(visible, page, PAGE_SIZE), [visible, page])
   const selected = customers.find((c) => c.id === selectedId) ?? null
@@ -330,24 +326,12 @@ export default function CustomerManagementPage() {
 
       <div className="chart-panel module-workspace module-table-card flex flex-col gap-4">
         <div className="flex min-w-0 flex-col gap-3">
-          <ModuleHeader title="Customers" subtitle="Profiles, order history, feedback and account status">
-            <label className="search-field">
-              <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <circle cx="11" cy="11" r="6.5" />
-                <path d="m16 16 4 4" strokeLinecap="round" />
-              </svg>
-              <input
-                type="search"
-                value={query}
-                onChange={(e) => {
-                  setQuery(e.target.value)
-                  setPage(1)
-                }}
-                placeholder="Search name or email"
-                aria-label="Search customers"
-              />
-            </label>
-          </ModuleHeader>
+          <div className="min-w-0">
+            <h2 className="font-display text-lg font-bold tracking-tight">Customers</h2>
+            <p className="text-muted text-xs font-medium text-pretty sm:text-sm">
+              Marlow customers · tap a row for profile, orders & complaints
+            </p>
+          </div>
           <div className="module-filters">
             {customerFilterBuckets.map((f) => (
               <FilterChip key={f.id} label={f.label} count={filterCounts[f.id]} active={bucket === f.id} onClick={() => {
