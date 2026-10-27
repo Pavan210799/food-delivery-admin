@@ -6,9 +6,11 @@ import { AuthProvider } from './components/auth/AuthProvider.jsx'
 import { ToastProvider } from './components/ui/Toast.jsx'
 import './index.css'
 
+const routerBase = import.meta.env.BASE_URL.replace(/\/$/, '') || undefined
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={routerBase}>
       <AuthProvider>
         <ToastProvider>
           <App />
