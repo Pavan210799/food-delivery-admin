@@ -1,6 +1,6 @@
 /** Single source of truth for all admin modules (dashboard + future pages). */
 
-import { restaurants as marlowKitchens } from '../../../food-delivery-platform/src/data/restaurants.js'
+import { restaurants as marlowKitchens } from './restaurants.js'
 import { DEFAULT_REGISTER_COVER } from '../lib/restaurantAdminPersist.js'
 
 function portrait(path) {
